@@ -1,24 +1,24 @@
 [package]
-name = "yaserde"
+name = "hifa_yaserde"
 version = "0.9.2"
-authors = ["Marc-Antoine Arnaud <arnaud.marcantoine@gmail.com>"]
+authors = ["Marc-Antoine Arnaud <arnaud.marcantoine@gmail.com>", "hifa-lang"]
 description = "Serialization and deserialization library"
 keywords = ["Serialization", "Deserialization", "XML"]
 license = "MIT"
-repository = "https://github.com/media-io/yaserde"
-homepage = "https://github.com/media-io/yaserde"
-documentation = "https://docs.rs/yaserde"
+repository = "https://github.com/hifa-lang/yaserde"
+homepage = "https://github.com/hifa-lang/yaserde"
+documentation = "https://docs.rs/hifa_lang_yaserde"
 readme = "../README.md"
 edition = "2018"
 
 [dependencies]
-yaserde_derive = { version = "0.9.2", path = "../yaserde_derive", optional = true }
+hifa_yaserde_derive = { version = "0.9.2", path = "../yaserde_derive", optional = true }
 xml-rs = "0.8.3"
 log = "0.4"
 
 [dev-dependencies]
 env_logger = "0.11.0"
-yaserde_derive = { version = "0.9.2", path = "../yaserde_derive" }
+hifa_yaserde_derive = { version = "0.9.2", path = "../yaserde_derive" }
 
 [badges]
-travis-ci = { repository = "media-io/yaserde" }
+travis-ci = { repository = "hifa-lang/yaserde" }

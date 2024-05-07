@@ -1,12 +1,12 @@
 #[macro_use]
-extern crate yaserde;
+extern crate hifa_yaserde;
 #[macro_use]
-extern crate yaserde_derive;
+extern crate hifa_yaserde_derive;
 
+use hifa_yaserde::de::from_str;
+use hifa_yaserde::YaDeserialize;
 use log::debug;
 use std::io::Read;
-use yaserde::de::from_str;
-use yaserde::YaDeserialize;
 
 fn init() {
   let _ = env_logger::builder().is_test(true).try_init();
@@ -252,7 +252,7 @@ fn de_attributes_custom_deserializer() {
     }
 
     impl YaDeserialize for Attributes {
-      fn deserialize<R: Read>(reader: &mut yaserde::de::Deserializer<R>) -> Result<Self, String> {
+      fn deserialize<R: Read>(reader: &mut hifa_yaserde::de::Deserializer<R>) -> Result<Self, String> {
         loop {
           match reader.next_event()? {
             XmlEvent::StartElement { .. } => {}
@@ -840,7 +840,7 @@ fn de_custom() {
   }
 
   impl YaDeserialize for Day {
-    fn deserialize<R: Read>(reader: &mut yaserde::de::Deserializer<R>) -> Result<Self, String> {
+    fn deserialize<R: Read>(reader: &mut hifa_yaserde::de::Deserializer<R>) -> Result<Self, String> {
       use std::str::FromStr;
 
       if let xml::reader::XmlEvent::StartElement { name, .. } = reader.peek()?.to_owned() {

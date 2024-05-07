@@ -2,7 +2,7 @@
 
 ## skip_serializing
 
-Attribute `skip_serializing` will skip the serialisation of the field if it is set to `true`. Default value is `false`. 
+Attribute `skip_serializing` will skip the serialisation of the field if it is set to `true`. Default value is `false`.
 
 - `#[yaserde(skip_serializing = true)]` - Skip serialization of the field.
 - `#[yaserde(skip_serializing = false)]` - The field will be serialized. Default value.
@@ -11,7 +11,7 @@ Attribute `skip_serializing` will skip the serialisation of the field if it is s
 ### Full example
 
 ```rust
-use yaserde_derive::YaSerialize;
+use hifa_yaserde_derive::YaSerialize;
 
 #[derive(YaSerialize, PartialEq, Debug)]
 struct Struct {
@@ -26,10 +26,10 @@ fn main() {
         do_not_skip_value: "not skipped".to_string()
     };
 
-    let yaserde_cfg = yaserde::ser::Config::default();
+    let yaserde_cfg = hifa_yaserde::ser::Config::default();
 
     //Output: <?xml version="1.0" encoding="utf-8"?><Struct><do_not_skip_value>not skipped</do_not_skip_value></Struct>
-    print!("{}", yaserde::ser::to_string_with_config(&obj, &yaserde_cfg).ok().unwrap());
+    print!("{}", hifa_yaserde::ser::to_string_with_config(&obj, &yaserde_cfg).ok().unwrap());
 }
 ```
 
@@ -39,14 +39,15 @@ Attribute `skip_serializing_if` will skip the serialisation for this field if th
 
 To conditionally skip serialization of a field a string needs to be set to `skip_serializing_if`, that refers to a
 function name, implemented on for the struct. This function has one parameter (reference to the field value) and returns a `bool` value.
+
 ```rust
-use yaserde_derive::YaSerialize;
+use hifa_yaserde_derive::YaSerialize;
 
 #[derive(YaSerialize, PartialEq, Debug)]
 struct Struct {
     #[yaserde(skip_serializing_if = "check_string")]
     string_value: String,
-    
+
     //...
 }
 
@@ -55,7 +56,7 @@ impl Struct {
     fn check_string(&self, value: &str) -> bool {
         value == "unset"
     }
-    
+
     //...
 }
 ```
@@ -63,7 +64,7 @@ impl Struct {
 ### Full example
 
 ```rust
-use yaserde_derive::YaSerialize;
+use hifa_yaserde_derive::YaSerialize;
 
 #[derive(YaSerialize, PartialEq, Debug)]
 enum Enum {
@@ -124,16 +125,17 @@ fn main() {
         enum_value: Enum::Enum1,
     };
 
-    let yaserde_cfg = yaserde::ser::Config::default();
+    let yaserde_cfg = hifa_yaserde::ser::Config::default();
 
     //Output: <?xml version=\"1.0\" encoding=\"utf-8\"?><Struct><bool_value>true</bool_value><string_value>testString</string_value><i32_value>10</i32_value><optional_string_value>optionalTestString</optional_string_value><enum_value>Enum2</enum_value></Struct>
-    println!("{}", yaserde::ser::to_string_with_config(&obj_no_skip, &yaserde_cfg).ok().unwrap());
+    println!("{}", hifa_yaserde::ser::to_string_with_config(&obj_no_skip, &yaserde_cfg).ok().unwrap());
 
     //Output: <?xml version="1.0" encoding="utf-8"?><Struct><enum_value>Enum1</enum_value></Struct>
     //Known issue, enum fields are not working as expected, see: https://github.com/media-io/yaserde/issues/139
-    println!("{}", yaserde::ser::to_string_with_config(&obj_skip_all, &yaserde_cfg).ok().unwrap());
+    println!("{}", hifa_yaserde::ser::to_string_with_config(&obj_skip_all, &yaserde_cfg).ok().unwrap());
 }
 ```
 
 ### Known issues
+
 - Currently, `enum` fields are not working with `skip_serializing_if`: https://github.com/media-io/yaserde/issues/139

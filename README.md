@@ -1,16 +1,18 @@
-# yaserde &emsp; [![Build Status]][travis] [![Latest Version]][crates.io] [![Coverage Status]][coveralls]
+# hifa yaserde &emsp; [![Build Status]][travis] [![Latest Version]][crates.io] [![Coverage Status]][coveralls]
 
-[Build Status]: https://travis-ci.com/media-io/yaserde.svg?branch=master
-[travis]: https://travis-ci.com/media-io/yaserde
-[Latest Version]: https://img.shields.io/crates/v/yaserde.svg
-[crates.io]: https://crates.io/crates/yaserde
-
-[Coverage Status]: https://coveralls.io/repos/github/media-io/yaserde/badge.svg?branch=master
-[coveralls]: https://coveralls.io/github/media-io/yaserde?branch=master
+[Build Status]: https://travis-ci.com/hifa-lang/yaserde.svg?branch=master
+[travis]: https://travis-ci.com/hifa-lang/yaserde
+[Latest Version]: https://img.shields.io/crates/v/hifa_yaserde.svg
+[crates.io]: https://crates.io/crates/hifa_yaserde
+[Coverage Status]: https://coveralls.io/repos/github/hifa-lang/yaserde/badge.svg?branch=master
+[coveralls]: https://coveralls.io/github/hifa-lang/yaserde?branch=master
 
 **Yet Another Serializer/Deserializer specialized for XML**
 
+This is a modified version of the project in [media-io/yaserde](https://github.com/media-io/xml-schema).
+
 ## Goal
+
 This library will support XML de/ser-ializing with all specific features.
 
 ## Supported types
@@ -33,7 +35,7 @@ This library will support XML de/ser-ializing with all specific features.
 - [x] **rename**: be able to rename a field
 - [x] **root**: rename the based element. Used only at the XML root.
 - [x] **skip_serializing**: Exclude this field from the serialized output. [More details...](doc/skip_serializing.md)
-- [x] **skip_serializing_if**: Skip the serialisation for this field if the condition is true.  [More details...](doc/skip_serializing.md)
+- [x] **skip_serializing_if**: Skip the serialisation for this field if the condition is true. [More details...](doc/skip_serializing.md)
 - [x] **text**: this field match to the text content
 
 ## Custom De/Ser-rializer
@@ -43,7 +45,7 @@ To implement it, define the implementation of YaDeserialize/YaSerialize
 
 ```rust
 impl YaDeserialize for MyType {
-  fn deserialize<R: Read>(reader: &mut yaserde::de::Deserializer<R>) -> Result<Self, String> {
+  fn deserialize<R: Read>(reader: &mut hifa_yaserde::de::Deserializer<R>) -> Result<Self, String> {
     // deserializer code
   }
 }
@@ -52,7 +54,7 @@ impl YaDeserialize for MyType {
 ```rust
 
 impl YaSerialize for MyType {
-  fn serialize<W: Write>(&self, writer: &mut yaserde::ser::Serializer<W>) -> Result<(), String> {
+  fn serialize<W: Write>(&self, writer: &mut hifa_yaserde::ser::Serializer<W>) -> Result<(), String> {
     // serializer code
   }
 }

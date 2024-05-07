@@ -1,7 +1,7 @@
 #[macro_use]
-extern crate yaserde;
+extern crate hifa_yaserde;
 #[macro_use]
-extern crate yaserde_derive;
+extern crate hifa_yaserde_derive;
 
 fn init() {
   let _ = env_logger::builder().is_test(true).try_init();
@@ -450,7 +450,7 @@ fn struct_bad_namespace() {
     </ns:book>
   "#;
 
-  let loaded: Result<Book, String> = yaserde::de::from_str(content);
+  let loaded: Result<Book, String> = hifa_yaserde::de::from_str(content);
   assert_eq!(
     loaded,
     Err("bad namespace for book, found http://www.sample.com/ns/domain2".to_string())

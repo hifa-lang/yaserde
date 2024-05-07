@@ -1,7 +1,7 @@
 #[macro_use]
-extern crate yaserde;
+extern crate hifa_yaserde;
 #[macro_use]
-extern crate yaserde_derive;
+extern crate hifa_yaserde_derive;
 
 #[test]
 fn basic_enum() {
@@ -210,7 +210,7 @@ fn attribute_enum2() {
     val: "hello world".into(),
   });
   serialize_and_validate!(model, content);
-  println!("{:?}", yaserde::de::from_str::<Base2>(content));
+  println!("{:?}", hifa_yaserde::de::from_str::<Base2>(content));
   deserialize_and_validate!(content, model, Base2);
 }
 

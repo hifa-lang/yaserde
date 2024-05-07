@@ -1,7 +1,7 @@
 #[macro_use]
-extern crate yaserde;
+extern crate hifa_yaserde;
 #[macro_use]
-extern crate yaserde_derive;
+extern crate hifa_yaserde_derive;
 
 fn init() {
   let _ = env_logger::builder().is_test(true).try_init();
@@ -118,7 +118,7 @@ fn option_bool_no_crash_on_bad_input() {
   }
 
   let content = "<field><content>/<R/";
-  let result: Result<Test, String> = yaserde::de::from_str(content);
+  let result: Result<Test, String> = hifa_yaserde::de::from_str(content);
 
   assert!(result.is_err());
 }

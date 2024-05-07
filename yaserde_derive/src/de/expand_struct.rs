@@ -77,7 +77,7 @@ pub fn parse(
         Some(quote! {
           #[allow(non_snake_case, non_camel_case_types)]
           struct #visitor_label;
-          impl<'de> ::yaserde::Visitor<'de> for #visitor_label {
+          impl<'de> ::hifa_yaserde::Visitor<'de> for #visitor_label {
             type Value = #struct_name;
 
             fn visit_str(
@@ -85,7 +85,7 @@ pub fn parse(
               v: &str,
             ) -> ::std::result::Result<Self::Value, ::std::string::String> {
               let content = "<".to_string() + #struct_id + ">" + v + "</" + #struct_id + ">";
-              ::yaserde::de::from_str(&content)
+              ::hifa_yaserde::de::from_str(&content)
             }
           }
         })
@@ -109,7 +109,7 @@ pub fn parse(
         Some(quote! {
           #[allow(non_snake_case, non_camel_case_types)]
           struct #visitor_label;
-          impl<'de> ::yaserde::Visitor<'de> for #visitor_label {
+          impl<'de> ::hifa_yaserde::Visitor<'de> for #visitor_label {
             type Value = #field_type;
 
             fn #visitor(
@@ -155,9 +155,9 @@ pub fn parse(
               // Don't count current struct's StartElement as substruct's StartElement
               let _root = reader.next_event();
             }
-            if let Ok(::yaserde::__xml::reader::XmlEvent::StartElement { .. }) = reader.peek() {
+            if let Ok(::hifa_yaserde::__xml::reader::XmlEvent::StartElement { .. }) = reader.peek() {
               // If substruct's start element found then deserialize substruct
-              let value = <#struct_name as ::yaserde::YaDeserialize>::deserialize(reader)?;
+              let value = <#struct_name as ::hifa_yaserde::YaDeserialize>::deserialize(reader)?;
               #value_label #action;
               // read EndElement
               let _event = reader.next_event()?;
@@ -205,11 +205,11 @@ pub fn parse(
 
       match field.get_type() {
         Field::FieldStruct { .. } => quote! {
-          #value_label = ::yaserde::de::from_str(&unused_xml_elements)?;
+          #value_label = ::hifa_yaserde::de::from_str(&unused_xml_elements)?;
         },
         Field::FieldOption { data_type } => match *data_type {
           Field::FieldStruct { .. } => quote! {
-            #value_label = ::yaserde::de::from_str(&unused_xml_elements).ok();
+            #value_label = ::hifa_yaserde::de::from_str(&unused_xml_elements).ok();
           },
           field_type => unimplemented!(r#""flatten" is not implemented for {:?}"#, field_type),
         },
@@ -363,19 +363,19 @@ pub fn parse(
   let flatten = root_attributes.flatten;
 
   quote! {
-    impl ::yaserde::YaDeserialize for #name {
+    impl ::hifa_yaserde::YaDeserialize for #name {
       #[allow(unused_variables)]
       fn deserialize<R: ::std::io::Read>(
-        reader: &mut ::yaserde::de::Deserializer<R>,
+        reader: &mut ::hifa_yaserde::de::Deserializer<R>,
       ) -> ::std::result::Result<Self, ::std::string::String> {
         let (named_element, struct_namespace) =
-          if let ::yaserde::__xml::reader::XmlEvent::StartElement { name, .. } = reader.peek()?.to_owned() {
+          if let ::hifa_yaserde::__xml::reader::XmlEvent::StartElement { name, .. } = reader.peek()?.to_owned() {
             (name.local_name.to_owned(), name.namespace.clone())
           } else {
             (::std::string::String::from(#root), ::std::option::Option::None)
           };
         let start_depth = reader.depth();
-        ::yaserde::__derive_debug!("Struct {} @ {}: start to parse {:?}", stringify!(#name), start_depth,
+        ::hifa_yaserde::__derive_debug!("Struct {} @ {}: start to parse {:?}", stringify!(#name), start_depth,
                named_element);
 
         if reader.depth() == 0 {
@@ -390,12 +390,12 @@ pub fn parse(
 
         loop {
           let event = reader.peek()?.to_owned();
-          ::yaserde::__derive_trace!(
+          ::hifa_yaserde::__derive_trace!(
             "Struct {} @ {}: matching {:?}",
             stringify!(#name), start_depth, event,
           );
           match event {
-            ::yaserde::__xml::reader::XmlEvent::StartElement{ref name, ref attributes, ..} => {
+            ::hifa_yaserde::__xml::reader::XmlEvent::StartElement{ref name, ref attributes, ..} => {
               if depth == 0 && name.local_name == #root {
                 // Consume root element. We must do this first. In the case it shares a name with a child element, we don't
                 // want to prematurely match the child element below.
@@ -421,7 +421,7 @@ pub fn parse(
               }
               depth += 1;
             }
-            ::yaserde::__xml::reader::XmlEvent::EndElement { ref name } => {
+            ::hifa_yaserde::__xml::reader::XmlEvent::EndElement { ref name } => {
               if name.local_name == named_element && reader.depth() == start_depth + 1 {
                 #write_unused
                 break;
@@ -430,12 +430,12 @@ pub fn parse(
               #write_unused
               depth -= 1;
             }
-            ::yaserde::__xml::reader::XmlEvent::EndDocument => {
+            ::hifa_yaserde::__xml::reader::XmlEvent::EndDocument => {
               if #flatten {
                 break;
               }
             }
-            ::yaserde::__xml::reader::XmlEvent::Characters(ref text_content) => {
+            ::hifa_yaserde::__xml::reader::XmlEvent::Characters(ref text_content) => {
               #set_text
               let event = reader.next_event()?;
               #write_unused
@@ -448,7 +448,7 @@ pub fn parse(
 
         #visit_unused
 
-        ::yaserde::__derive_debug!("Struct {} @ {}: success", stringify!(#name), start_depth);
+        ::hifa_yaserde::__derive_debug!("Struct {} @ {}: success", stringify!(#name), start_depth);
         ::std::result::Result::Ok(#name{#struct_builder})
       }
     }
@@ -479,7 +479,7 @@ fn build_call_visitor(
       #namespaces_matching
 
       let result = reader.read_inner_value::<#field_type, _>(|reader| {
-        if let ::std::result::Result::Ok(::yaserde::__xml::reader::XmlEvent::Characters(s)) = reader.peek() {
+        if let ::std::result::Result::Ok(::hifa_yaserde::__xml::reader::XmlEvent::Characters(s)) = reader.peek() {
           let val = visitor.#visitor(&s);
           let _event = reader.next_event()?;
           val
@@ -505,7 +505,7 @@ fn build_code_for_unused_xml_events(
   (
     Some(quote! {
       let mut buf = ::std::vec![];
-      let mut writer = ::std::option::Option::Some(::yaserde::__xml::writer::EventWriter::new(&mut buf));
+      let mut writer = ::std::option::Option::Some(::hifa_yaserde::__xml::writer::EventWriter::new(&mut buf));
     }),
     Some(quote! {
       if let ::std::option::Option::Some(ref mut w) = writer {

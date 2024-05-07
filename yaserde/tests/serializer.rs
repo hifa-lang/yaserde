@@ -1,10 +1,10 @@
 #[macro_use]
-extern crate yaserde;
+extern crate hifa_yaserde;
 #[macro_use]
-extern crate yaserde_derive;
+extern crate hifa_yaserde_derive;
 
+use hifa_yaserde::YaSerialize;
 use std::io::Write;
-use yaserde::YaSerialize;
 
 #[test]
 fn ser_basic() {
@@ -383,7 +383,10 @@ fn ser_custom() {
   }
 
   impl YaSerialize for Day {
-    fn serialize<W: Write>(&self, writer: &mut yaserde::ser::Serializer<W>) -> Result<(), String> {
+    fn serialize<W: Write>(
+      &self,
+      writer: &mut hifa_yaserde::ser::Serializer<W>,
+    ) -> Result<(), String> {
       let _ret = writer.write(xml::writer::XmlEvent::start_element("DoubleDay"));
       let _ret = writer.write(xml::writer::XmlEvent::characters(
         &(self.value * 2).to_string(),

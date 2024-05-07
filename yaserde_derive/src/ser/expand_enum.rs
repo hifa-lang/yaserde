@@ -111,7 +111,7 @@ fn inner_enum_inspector(
       match variant.fields {
         Fields::Unit => quote! {
           &#name::#label => {
-            let data_event = ::yaserde::__xml::writer::XmlEvent::characters(#label_name);
+            let data_event = ::hifa_yaserde::__xml::writer::XmlEvent::characters(#label_name);
             writer.write(data_event).map_err(|e| e.to_string())?;
           }
         },
@@ -126,7 +126,7 @@ fn inner_enum_inspector(
 
               if field.is_text_content() {
                 return Some(quote!(
-                  let data_event = ::yaserde::__xml::writer::XmlEvent::characters(&self.#field_label);
+                  let data_event = ::hifa_yaserde::__xml::writer::XmlEvent::characters(&self.#field_label);
                   writer.write(data_event).map_err(|e| e.to_string())?;
                 ));
               }
@@ -150,14 +150,14 @@ fn inner_enum_inspector(
                     match self {
                       &#name::#label { ref #field_label, .. } => {
                         let struct_start_event =
-                          ::yaserde::__xml::writer::XmlEvent::start_element(#field_label_name);
+                          ::hifa_yaserde::__xml::writer::XmlEvent::start_element(#field_label_name);
                         writer.write(struct_start_event).map_err(|e| e.to_string())?;
 
                         let string_value = #field_label.to_string();
-                        let data_event = ::yaserde::__xml::writer::XmlEvent::characters(&string_value);
+                        let data_event = ::hifa_yaserde::__xml::writer::XmlEvent::characters(&string_value);
                         writer.write(data_event).map_err(|e| e.to_string())?;
 
-                        let struct_end_event = ::yaserde::__xml::writer::XmlEvent::end_element();
+                        let struct_end_event = ::hifa_yaserde::__xml::writer::XmlEvent::end_element();
                         writer.write(struct_end_event).map_err(|e| e.to_string())?;
                       },
                       _ => {},
@@ -171,7 +171,7 @@ fn inner_enum_inspector(
                         ::std::option::Option::Some(#field_label_name.to_string()),
                       );
                       writer.set_skip_start_end(false);
-                      ::yaserde::YaSerialize::serialize(#field_label, writer)?;
+                      ::hifa_yaserde::YaSerialize::serialize(#field_label, writer)?;
                     },
                     _ => {}
                   }
@@ -184,7 +184,7 @@ fn inner_enum_inspector(
                           ::std::option::Option::Some(#field_label_name.to_string()),
                         );
                         writer.set_skip_start_end(false);
-                        ::yaserde::YaSerialize::serialize(item, writer)?;
+                        ::hifa_yaserde::YaSerialize::serialize(item, writer)?;
                       }
                     },
                     _ => {}
@@ -210,31 +210,31 @@ fn inner_enum_inspector(
             .map(|field| {
               let write_element = |action: &TokenStream| {
                 quote! {
-                  let struct_start_event = ::yaserde::__xml::writer::XmlEvent::start_element(#label_name);
+                  let struct_start_event = ::hifa_yaserde::__xml::writer::XmlEvent::start_element(#label_name);
                   writer.write(struct_start_event).map_err(|e| e.to_string())?;
 
                   #action
 
-                  let struct_end_event = ::yaserde::__xml::writer::XmlEvent::end_element();
+                  let struct_end_event = ::hifa_yaserde::__xml::writer::XmlEvent::end_element();
                   writer.write(struct_end_event).map_err(|e| e.to_string())?;
                 }
               };
 
               let write_string_chars = quote! {
-                let data_event = ::yaserde::__xml::writer::XmlEvent::characters(item);
+                let data_event = ::hifa_yaserde::__xml::writer::XmlEvent::characters(item);
                 writer.write(data_event).map_err(|e| e.to_string())?;
               };
 
               let write_simple_type = write_element(&quote! {
                 let s = item.to_string();
-                let data_event = ::yaserde::__xml::writer::XmlEvent::characters(&s);
+                let data_event = ::hifa_yaserde::__xml::writer::XmlEvent::characters(&s);
                 writer.write(data_event).map_err(|e| e.to_string())?;
               });
 
               let serialize = quote! {
                 writer.set_start_event_name(::std::option::Option::None);
                 writer.set_skip_start_end(true);
-                ::yaserde::YaSerialize::serialize(item, writer)?;
+                ::hifa_yaserde::YaSerialize::serialize(item, writer)?;
               };
 
               let write_sub_type = |data_type| {
@@ -276,7 +276,7 @@ fn inner_enum_inspector(
                 }
                 Field::FieldStruct { .. } => {
                   if variant_attrs.flatten || field.is_flatten() {
-                     match_field(&quote!{ ::yaserde::YaSerialize::serialize(item, writer)?})
+                     match_field(&quote!{ ::hifa_yaserde::YaSerialize::serialize(item, writer)?})
                    } else {
                      write_element(&match_field(&serialize))
                    }

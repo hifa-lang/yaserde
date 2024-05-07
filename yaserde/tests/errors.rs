@@ -1,7 +1,7 @@
 #[macro_use]
-extern crate yaserde_derive;
+extern crate hifa_yaserde_derive;
 
-use yaserde::de::from_str;
+use hifa_yaserde::de::from_str;
 
 fn init() {
   let _ = env_logger::builder().is_test(true).try_init();
