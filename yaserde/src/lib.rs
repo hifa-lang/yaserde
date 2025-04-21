@@ -19,11 +19,11 @@
 //! #[derive(Default, PartialEq, Debug, YaSerialize)]
 //! #[yaserde(rename = "device")]
 //! struct Device {
-//!   #[yaserde(attribute)]
+//!   #[yaserde(attribute = true)]
 //!   schemaversion: String,
-//!   #[yaserde(attribute)]
+//!   #[yaserde(attribute = true)]
 //!   xmlns: String,
-//!   #[yaserde(attribute)]
+//!   #[yaserde(attribute = true)]
 //!   xsnonamespaceschemalocation: String,
 //!   #[yaserde(child)]
 //!   attributes: DeviceAttributes
@@ -81,12 +81,12 @@
 //! Avoid using either `{:?}` or `{:#?}` println! formatters since it'll garble the output of your
 //! XML.
 
-#[cfg(feature = "yaserde_derive")]
+#[cfg(feature = "hifa_yaserde_derive")]
 #[allow(unused_imports)]
 #[macro_use]
 extern crate hifa_yaserde_derive;
 
-#[cfg(feature = "yaserde_derive")]
+#[cfg(feature = "hifa_yaserde_derive")]
 #[doc(hidden)]
 pub use hifa_yaserde_derive::*;
 
@@ -297,7 +297,7 @@ macro_rules! test_for_attribute_type {
     #[derive(Debug, PartialEq, YaDeserialize, YaSerialize)]
     #[yaserde(rename = "data")]
     pub struct Data {
-      #[yaserde(attribute)]
+      #[yaserde(attribute = true)]
       item: $type,
     }
     let model = Data { item: $value };

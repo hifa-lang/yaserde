@@ -25,7 +25,7 @@ struct Workbook {
 struct Worksheet {
   #[yaserde(rename = "Table")]
   table: Table,
-  #[yaserde(attribute, rename = "Name", prefix = "ss")]
+  #[yaserde(attribute = true, rename = "Name", prefix = "ss")]
   ws_name: String,
 }
 
@@ -38,19 +38,19 @@ struct Worksheet {
   namespace = "html: http://www.w3.org/TR/REC-html40"
 )]
 struct Table {
-  #[yaserde(attribute, rename = "ExpandedColumnCount", prefix = "ss")]
+  #[yaserde(attribute = true, rename = "ExpandedColumnCount", prefix = "ss")]
   expanded_column_count: u32,
-  #[yaserde(attribute, rename = "ExpandedRowCount", prefix = "ss")]
+  #[yaserde(attribute = true, rename = "ExpandedRowCount", prefix = "ss")]
   expanded_row_count: u32,
-  #[yaserde(attribute, rename = "FullColumns", prefix = "x")]
+  #[yaserde(attribute = true, rename = "FullColumns", prefix = "x")]
   full_columns: u32,
-  #[yaserde(attribute, rename = "FullRows", prefix = "x")]
+  #[yaserde(attribute = true, rename = "FullRows", prefix = "x")]
   full_rows: u32,
-  #[yaserde(attribute, rename = "StyleID", prefix = "ss")]
+  #[yaserde(attribute = true, rename = "StyleID", prefix = "ss")]
   style_id: String,
-  #[yaserde(attribute, rename = "DefaultColumnWidth", prefix = "ss")]
+  #[yaserde(attribute = true, rename = "DefaultColumnWidth", prefix = "ss")]
   default_column_width: f32,
-  #[yaserde(attribute, rename = "DefaultRowHeight", prefix = "ss")]
+  #[yaserde(attribute = true, rename = "DefaultRowHeight", prefix = "ss")]
   default_column_height: f32,
 
   #[yaserde(rename = "Row")]
@@ -66,9 +66,9 @@ struct Table {
   namespace = "html: http://www.w3.org/TR/REC-html40"
 )]
 struct Row {
-  #[yaserde(attribute, rename = "AutoFitHeight", prefix = "ss")]
+  #[yaserde(attribute = true, rename = "AutoFitHeight", prefix = "ss")]
   auto_fit_height: f32,
-  #[yaserde(attribute, rename = "Height", prefix = "ss")]
+  #[yaserde(attribute = true, rename = "Height", prefix = "ss")]
   height: f32,
 }
 

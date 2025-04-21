@@ -472,6 +472,8 @@ fn build_call_visitor(
     quote!(name.local_name.as_str()),
   );
 
+  // let namespace = field.prefix_namespace(root_attributes);
+
   Some(quote! {
     #label_name => {
       let visitor = #visitor_label{};

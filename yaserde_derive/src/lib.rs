@@ -11,7 +11,7 @@ use proc_macro::TokenStream;
 
 #[proc_macro_derive(YaDeserialize, attributes(yaserde))]
 pub fn derive_deserialize(input: TokenStream) -> TokenStream {
-  let ast = syn::parse(input).unwrap();
+  let ast = syn::parse_macro_input!(input as syn::DeriveInput);
   match de::expand_derive_deserialize(&ast) {
     Ok(expanded) => expanded.into(),
     Err(msg) => panic!("{}", msg),
@@ -20,7 +20,7 @@ pub fn derive_deserialize(input: TokenStream) -> TokenStream {
 
 #[proc_macro_derive(YaSerialize, attributes(yaserde))]
 pub fn derive_serialize(input: TokenStream) -> TokenStream {
-  let ast = syn::parse(input).unwrap();
+  let ast = syn::parse_macro_input!(input as syn::DeriveInput);
   match ser::expand_derive_serialize(&ast) {
     Ok(expanded) => expanded.into(),
     Err(msg) => panic!("{}", msg),

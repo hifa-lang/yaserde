@@ -113,7 +113,7 @@ fn option_bool_no_crash_on_bad_input() {
 
   #[derive(Debug, Default, PartialEq, YaDeserialize, YaSerialize)]
   struct SubTest {
-    #[yaserde(attribute)]
+    #[yaserde(attribute = true)]
     content: Option<bool>,
   }
 

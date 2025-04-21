@@ -16,7 +16,7 @@ pub struct YaSerdeField {
 
 impl YaSerdeField {
   pub fn new(syn_field: syn::Field) -> Self {
-    let attributes = YaSerdeAttribute::parse(&syn_field.attrs);
+    let attributes = YaSerdeAttribute::from(&syn_field.attrs);
 
     YaSerdeField {
       syn_field,

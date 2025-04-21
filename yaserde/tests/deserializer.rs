@@ -25,7 +25,7 @@ fn de_basic() {
   init();
 
   #[derive(YaDeserialize, PartialEq, Debug)]
-  #[yaserde(root = "book")]
+  #[yaserde(rename = "book")]
   pub struct Book {
     author: String,
     title: String,
@@ -59,9 +59,9 @@ fn de_keyword() {
   init();
 
   #[derive(YaDeserialize, PartialEq, Debug)]
-  #[yaserde(root = "book")]
+  #[yaserde(rename = "book")]
   pub struct Book {
-    #[yaserde(attribute, rename = "ref")]
+    #[yaserde(attribute = true, rename = "ref")]
     pub r#ref: String,
   }
 
@@ -80,7 +80,7 @@ fn de_dash_param() {
   init();
 
   #[derive(YaDeserialize, PartialEq, Debug)]
-  #[yaserde(root = "book")]
+  #[yaserde(rename = "book")]
   pub struct Book {
     #[yaserde(rename = "author-release")]
     author: String,
@@ -123,7 +123,7 @@ fn de_multiple_segments() {
   }
 
   #[derive(YaDeserialize, PartialEq, Debug)]
-  #[yaserde(root = "book")]
+  #[yaserde(rename = "book")]
   pub struct Book {
     author: String,
     title: String,
@@ -160,7 +160,7 @@ fn de_list_of_items() {
   init();
 
   #[derive(YaDeserialize, PartialEq, Debug)]
-  #[yaserde(root = "library")]
+  #[yaserde(rename = "library")]
   pub struct Library {
     books: Vec<String>,
   }
@@ -175,7 +175,7 @@ fn de_list_of_items() {
   );
 
   #[derive(YaDeserialize, PartialEq, Debug)]
-  #[yaserde(root = "libraries")]
+  #[yaserde(rename = "libraries")]
   pub struct Libraries {
     library: Vec<Library>,
   }
@@ -202,17 +202,17 @@ fn de_attributes() {
   init();
 
   #[derive(YaDeserialize, PartialEq, Debug)]
-  #[yaserde(root = "base")]
+  #[yaserde(rename = "base")]
   pub struct XmlStruct {
-    #[yaserde(attribute)]
+    #[yaserde(attribute = true)]
     item: String,
     sub: SubStruct,
   }
 
   #[derive(YaDeserialize, PartialEq, Debug)]
-  #[yaserde(root = "sub")]
+  #[yaserde(rename = "sub")]
   pub struct SubStruct {
-    #[yaserde(attribute)]
+    #[yaserde(attribute = true)]
     subitem: String,
   }
 
@@ -252,7 +252,9 @@ fn de_attributes_custom_deserializer() {
     }
 
     impl YaDeserialize for Attributes {
-      fn deserialize<R: Read>(reader: &mut hifa_yaserde::de::Deserializer<R>) -> Result<Self, String> {
+      fn deserialize<R: Read>(
+        reader: &mut hifa_yaserde::de::Deserializer<R>,
+      ) -> Result<Self, String> {
         loop {
           match reader.next_event()? {
             XmlEvent::StartElement { .. } => {}
@@ -276,9 +278,9 @@ fn de_attributes_custom_deserializer() {
 
   #[derive(Default, YaDeserialize, PartialEq, Debug)]
   pub struct Struct {
-    #[yaserde(attribute)]
+    #[yaserde(attribute = true)]
     attr_option_string: Option<String>,
-    #[yaserde(attribute)]
+    #[yaserde(attribute = true)]
     attr_option_struct: Option<other_mod::Attributes>,
   }
 
@@ -320,9 +322,9 @@ fn de_attributes_complex() {
 
   #[derive(Default, YaDeserialize, PartialEq, Debug)]
   pub struct Struct {
-    #[yaserde(attribute)]
+    #[yaserde(attribute = true)]
     attr_option_string: Option<String>,
-    #[yaserde(attribute)]
+    #[yaserde(attribute = true)]
     attr_option_enum: Option<other_mod::AttrEnum>,
   }
 
@@ -351,7 +353,7 @@ fn de_attributes_with_same_name_field() {
 
   #[derive(Default, YaDeserialize, PartialEq, Debug)]
   pub struct Struct {
-    #[yaserde(attribute, rename = "content")]
+    #[yaserde(attribute = true, rename = "content")]
     attribute: Option<String>,
     content: Option<String>,
   }
@@ -389,9 +391,9 @@ fn de_rename() {
   init();
 
   #[derive(YaDeserialize, PartialEq, Debug)]
-  #[yaserde(root = "base")]
+  #[yaserde(rename = "base")]
   pub struct XmlStruct {
-    #[yaserde(attribute, rename = "Item")]
+    #[yaserde(attribute = true, rename = "Item")]
     item: String,
     #[yaserde(rename = "sub")]
     sub_struct: SubStruct,
@@ -400,9 +402,9 @@ fn de_rename() {
   }
 
   #[derive(YaDeserialize, PartialEq, Debug)]
-  #[yaserde(root = "sub")]
+  #[yaserde(rename = "sub")]
   pub struct SubStruct {
-    #[yaserde(attribute, rename = "sub_item")]
+    #[yaserde(attribute = true, rename = "sub_item")]
     subitem: String,
   }
 
@@ -433,20 +435,20 @@ fn de_text_content_with_attributes() {
   init();
 
   #[derive(YaDeserialize, PartialEq, Debug)]
-  #[yaserde(root = "base")]
+  #[yaserde(rename = "base")]
   pub struct XmlStruct {
-    #[yaserde(attribute, rename = "Item")]
+    #[yaserde(attribute = true, rename = "Item")]
     item: String,
     #[yaserde(rename = "sub")]
     sub_struct: SubStruct,
   }
 
   #[derive(YaDeserialize, PartialEq, Debug)]
-  #[yaserde(root = "sub")]
+  #[yaserde(rename = "sub")]
   pub struct SubStruct {
-    #[yaserde(attribute, rename = "sub_item")]
+    #[yaserde(attribute = true, rename = "sub_item")]
     subitem: String,
-    #[yaserde(text)]
+    #[yaserde(text = true)]
     text: String,
   }
 
@@ -479,7 +481,7 @@ fn de_text_attribute_on_optional_string() {
   #[derive(YaDeserialize, PartialEq, Debug)]
   #[yaserde(rename = "base")]
   pub struct XmlStruct {
-    #[yaserde(text)]
+    #[yaserde(text = true)]
     text: Option<String>,
   }
 
@@ -499,19 +501,19 @@ fn de_enum() {
   init();
 
   #[derive(YaDeserialize, PartialEq, Debug)]
-  #[yaserde(root = "base")]
+  #[yaserde(rename = "base")]
   pub struct XmlStruct {
     background: Color,
   }
 
   #[derive(YaDeserialize, PartialEq, Debug)]
-  #[yaserde(root = "base")]
+  #[yaserde(rename = "base")]
   pub struct Colors {
     items: Vec<Color>,
   }
 
   #[derive(Default, YaDeserialize, PartialEq, Debug)]
-  #[yaserde(root = "color")]
+  #[yaserde(rename = "color")]
   pub enum Color {
     #[default]
     White,
@@ -560,14 +562,14 @@ fn de_attribute_enum() {
   init();
 
   #[derive(YaDeserialize, PartialEq, Debug)]
-  #[yaserde(root = "base")]
+  #[yaserde(rename = "base")]
   pub struct XmlStruct {
-    #[yaserde(attribute)]
+    #[yaserde(attribute = true)]
     background: Color,
   }
 
   #[derive(Default, YaDeserialize, PartialEq, Debug)]
-  #[yaserde(root = "color")]
+  #[yaserde(rename = "color")]
   pub enum Color {
     #[default]
     White,
@@ -805,7 +807,7 @@ fn de_name_issue_21() {
   init();
 
   #[derive(YaDeserialize, PartialEq, Debug)]
-  #[yaserde(root = "book")]
+  #[yaserde(rename = "book")]
   pub struct Book {
     name: String,
   }
@@ -840,7 +842,9 @@ fn de_custom() {
   }
 
   impl YaDeserialize for Day {
-    fn deserialize<R: Read>(reader: &mut hifa_yaserde::de::Deserializer<R>) -> Result<Self, String> {
+    fn deserialize<R: Read>(
+      reader: &mut hifa_yaserde::de::Deserializer<R>,
+    ) -> Result<Self, String> {
       use std::str::FromStr;
 
       if let xml::reader::XmlEvent::StartElement { name, .. } = reader.peek()?.to_owned() {
@@ -941,7 +945,7 @@ fn de_subitem_issue_12_attributes() {
 
   #[derive(Default, PartialEq, Debug, YaDeserialize)]
   pub struct Struct {
-    #[yaserde(attribute)]
+    #[yaserde(attribute = true)]
     id: i32,
   }
 
@@ -962,13 +966,13 @@ fn de_subitem_issue_12_attributes_with_sub() {
 
   #[derive(Default, PartialEq, Debug, YaDeserialize)]
   pub struct SubStruct {
-    #[yaserde(attribute)]
+    #[yaserde(attribute = true)]
     id: i32,
   }
 
   #[derive(Default, PartialEq, Debug, YaDeserialize)]
   pub struct Struct {
-    #[yaserde(attribute)]
+    #[yaserde(attribute = true)]
     id: i32,
     sub1: SubStruct,
     sub2: SubStruct,
@@ -1105,11 +1109,11 @@ fn de_attribute_sequence() {
 
   #[derive(Default, Debug, PartialEq, YaDeserialize)]
   pub struct Outer {
-    #[yaserde(attribute, rename = "seq1")]
+    #[yaserde(attribute = true, rename = "seq1")]
     seq1: Vec<i32>,
-    #[yaserde(child, attribute, rename = "seq2")]
+    #[yaserde(attribute = true, rename = "seq2")]
     seq2: Vec<Inner>,
-    #[yaserde(attribute, rename = "seq3")]
+    #[yaserde(attribute = true, rename = "seq3")]
     seq3: Vec<String>,
   }
 
@@ -1132,7 +1136,7 @@ fn de_nested_macro_rules() {
     ($type:ty) => {
       #[derive(Default, PartialEq, Debug, YaDeserialize)]
       pub struct Outer {
-        #[yaserde(attribute)]
+        #[yaserde(attribute = true)]
         pub inner: Option<$type>,
       }
     };
