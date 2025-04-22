@@ -1,7 +1,7 @@
 // related to issue https://github.com/media-io/yaserde/issues/3
 use hifa_yaserde::*;
 
-#[derive(Default, Debug, Clone, PartialEq, YaDeserialize)]
+#[derive(Debug, Clone, PartialEq, YaDeserialize)]
 #[yaserde(rename = "layout")]
 pub struct Layout {
   #[yaserde(attribute = true)]
@@ -17,7 +17,7 @@ pub struct Layout {
   pub tabpage: Vec<Tabpage>,
 }
 
-#[derive(Default, Debug, Clone, PartialEq, YaDeserialize)]
+#[derive(Debug, Clone, PartialEq, YaDeserialize)]
 pub struct Tabpage {
   #[yaserde(attribute = true, rename = "name")]
   pub named: String,
@@ -48,7 +48,7 @@ pub struct Tabpage {
   pub control: Vec<Control>,
 }
 
-#[derive(Default, Debug, Clone, PartialEq, YaDeserialize)]
+#[derive(Debug, Clone, PartialEq, YaDeserialize)]
 pub struct Control {
   #[yaserde(attribute = true, rename = "name")]
   pub named: String,
@@ -63,27 +63,27 @@ pub struct Control {
   #[yaserde(attribute = true)]
   pub color: String,
   #[yaserde(attribute = true)]
-  pub scalef: f32,
+  pub scalef: Option<f32>,
   #[yaserde(attribute = true)]
-  pub scalet: f32,
+  pub scalet: Option<f32>,
   #[yaserde(attribute = true)]
-  pub local_off: bool,
+  pub local_off: Option<bool>,
   #[yaserde(attribute = true)]
-  pub sp: bool,
+  pub sp: Option<bool>,
   #[yaserde(attribute = true)]
-  pub sr: bool,
+  pub sr: Option<bool>,
   pub midi: Vec<Midi>,
   #[yaserde(attribute = true)]
-  pub response: String,
+  pub response: Option<String>,
   #[yaserde(attribute = true)]
-  pub inverted: String,
+  pub inverted: Option<String>,
   #[yaserde(attribute = true)]
-  pub centered: String,
+  pub centered: Option<String>,
   #[yaserde(attribute = true)]
-  pub norollover: String,
+  pub norollover: Option<String>,
 }
 
-#[derive(Default, Debug, Clone, PartialEq, YaDeserialize)]
+#[derive(Debug, Clone, PartialEq, YaDeserialize)]
 pub struct Midi {
   #[yaserde(attribute = true)]
   pub var: String,

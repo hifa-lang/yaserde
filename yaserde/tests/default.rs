@@ -101,7 +101,7 @@ fn default_attribute_string() {
   #[derive(Debug, PartialEq, YaDeserialize, YaSerialize)]
   #[yaserde(rename = "base")]
   pub struct XmlStruct {
-    #[yaserde(default = "default_string")]
+    #[yaserde(attribute = true, default = "default_string")]
     background: String,
   }
 

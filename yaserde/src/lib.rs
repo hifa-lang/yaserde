@@ -25,13 +25,11 @@
 //!   xmlns: String,
 //!   #[yaserde(attribute = true)]
 //!   xsnonamespaceschemalocation: String,
-//!   #[yaserde(child)]
 //!   attributes: DeviceAttributes
 //! }
 //!
 //! #[derive(Default, PartialEq, Debug, YaSerialize)]
 //! struct DeviceAttributes {
-//!   #[yaserde(child)]
 //!   vendor: String,
 //! }
 //!```
@@ -330,7 +328,7 @@ macro_rules! serialize_and_validate {
     log::debug!("serialize_and_validate @ {}:{}", file!(), line!());
     let data: Result<String, String> = hifa_yaserde::ser::to_string(&$model);
 
-    let content = &format!(r#"<?xml version="1.0" encoding="utf-8"?>{}"#, $content);
+    let content = &format!(r#"<?xml version="1.0" encoding="UTF-8"?>{}"#, $content);
     assert_eq!(
       data,
       Ok(content.split("\n").map(|s| s.trim()).collect::<String>())

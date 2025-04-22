@@ -503,7 +503,9 @@ fn struct_default_namespace_no_prefix() {
     "ns" = "http://www.sample.com/ns/domain"
   })]
   pub struct Book {
+    #[yaserde(prefix = "ns")]
     author: String,
+    #[yaserde(prefix = "ns")]
     title: String,
   }
 

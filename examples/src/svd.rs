@@ -1,124 +1,82 @@
-use hifa_yaserde::YaSerialize;
-
-#[derive(Default, PartialEq, Debug, YaSerialize)]
-struct CpuDef {
-  #[yaserde(child)]
-  name: String,
-  #[yaserde(child)]
-  revision: String,
-  #[yaserde(child)]
-  endian: String, // enum {LE, BE, ME}
-  #[yaserde(child)]
-  mpupresent: bool,
-  #[yaserde(child)]
-  fpupresent: bool,
-  //#[yaserde(child)]
-  //nvicpriobits: enum {8, 16, 32, 64, 128},
-  #[yaserde(child)]
-  vendorsystickconfig: bool,
-}
-
-#[derive(Default, PartialEq, Debug, YaSerialize)]
-struct Field {
-  name: String,
-  #[yaserde(child)]
-  description: String,
-  #[yaserde(child)]
-  bitrange: String,
-  #[yaserde(child)]
-  access: String,
-}
-
-#[derive(Default, PartialEq, Debug, YaSerialize)]
-struct Register {
-  #[yaserde(child)]
-  name: String,
-  #[yaserde(child)]
-  description: String,
-  #[yaserde(child)]
-  addressoffset: String,
-  #[yaserde(child)]
-  size: u8,
-  #[yaserde(child)]
-  access: String,
-  #[yaserde(child)]
-  resetvalue: String,
-  #[yaserde(child)]
-  resetmask: String,
-  #[yaserde(child)]
-  fields: Vec<Field>,
-}
-
-#[derive(Default, PartialEq, Debug, YaSerialize)]
-struct Peripheral {
-  #[yaserde(child)]
-  name: String,
-  #[yaserde(child)]
-  version: String,
-  #[yaserde(child)]
-  description: String,
-  #[yaserde(child)]
-  groupname: String,
-  #[yaserde(child)]
-  baseaddress: String,
-  #[yaserde(child)]
-  size: u8,
-  #[yaserde(child)]
-  access: String,
-  #[yaserde(child)]
-  registers: Vec<Register>,
-}
-
-#[derive(Default, PartialEq, Debug, YaSerialize)]
-struct DevAttrs {
-  #[yaserde(child)]
-  vendor: String,
-  #[yaserde(child)]
-  vendorid: String,
-  #[yaserde(child)]
-  name: String,
-  #[yaserde(child)]
-  series: String,
-  #[yaserde(child)]
-  version: String,
-  #[yaserde(child)]
-  description: String,
-  #[yaserde(child)]
-  licensetext: String,
-  #[yaserde(child)]
-  cpu: CpuDef,
-  #[yaserde(child)]
-  addressunitbits: u8,
-  #[yaserde(child)]
-  width: u8,
-  #[yaserde(child)]
-  size: u8,
-  #[yaserde(child)]
-  access: String,
-  #[yaserde(child)]
-  resetvalue: String,
-  #[yaserde(child)]
-  resetmask: String,
-  #[yaserde(child)]
-  peripherals: Vec<Peripheral>,
-}
-
-#[derive(Default, PartialEq, Debug, YaSerialize)]
-#[yaserde(rename = "device")]
-struct Device {
- #[yaserde(attribute = true)]
-  schemaversion: String,
- #[yaserde(attribute = true)]
-  xmlns: String,
- #[yaserde(attribute = true)]
-  xsnonamespaceschemalocation: String,
-  #[yaserde(child)]
-  devattributes: DevAttrs,
-}
-
 #[test]
 fn parsing_svd() {
+  use hifa_yaserde::YaSerialize;
   use std::fs;
+
+  #[derive(PartialEq, Default, Debug, YaSerialize)]
+  struct CpuDef {
+    name: String,
+    revision: String,
+    endian: String, // enum {LE, BE, ME}
+    mpupresent: bool,
+    fpupresent: bool,
+    //#[yaserde(child)]
+    //nvicpriobits: enum {8, 16, 32, 64, 128},
+    vendorsystickconfig: bool,
+  }
+
+  #[derive(PartialEq, Default, Debug, YaSerialize)]
+  struct Field {
+    name: String,
+    description: String,
+    bitrange: String,
+    access: String,
+  }
+
+  #[derive(PartialEq, Debug, YaSerialize)]
+  struct Register {
+    name: String,
+    description: String,
+    addressoffset: String,
+    size: u8,
+    access: String,
+    resetvalue: String,
+    resetmask: String,
+    fields: Vec<Field>,
+  }
+
+  #[derive(PartialEq, Default, Debug, YaSerialize)]
+  struct Peripheral {
+    name: String,
+    version: String,
+    description: String,
+    groupname: String,
+    baseaddress: String,
+    size: u8,
+    access: String,
+    registers: Vec<Register>,
+  }
+
+  #[derive(PartialEq, Default, Debug, YaSerialize)]
+  struct DevAttrs {
+    vendor: String,
+    vendorid: String,
+    name: String,
+    series: String,
+    version: String,
+    description: String,
+    licensetext: String,
+    cpu: CpuDef,
+    addressunitbits: u8,
+    width: u8,
+    size: u8,
+    access: String,
+    resetvalue: String,
+    resetmask: String,
+    peripherals: Vec<Peripheral>,
+  }
+
+  #[derive(PartialEq, Default, Debug, YaSerialize)]
+  #[yaserde(rename = "device")]
+  struct Device {
+    #[yaserde(attribute = true)]
+    schemaversion: String,
+    #[yaserde(attribute = true)]
+    xmlns: String,
+    #[yaserde(attribute = true)]
+    xsnonamespaceschemalocation: String,
+    devattributes: DevAttrs,
+  }
 
   let register = Register {
         name: "PRCMD".to_string(),

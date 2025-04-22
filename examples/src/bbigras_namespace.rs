@@ -4,26 +4,30 @@ use hifa_yaserde::*;
 #[derive(YaDeserialize, Default, Debug, PartialEq)]
 #[yaserde(
   prefix = "ss",
-  namespace = "x: urn:schemas-microsoft-com:office:excel",
-  namespace = "ss: urn:schemas-microsoft-com:office:spreadsheet",
-  namespace = "o: urn:schemas-microsoft-com:office:office",
-  namespace = "html: http://www.w3.org/TR/REC-html40"
+  namespaces = {
+    "x" = "urn:schemas-microsoft-com:office:excel",
+    "ss" = "urn:schemas-microsoft-com:office:spreadsheet",
+    "o" = "urn:schemas-microsoft-com:office:office",
+    "html" = "http://www.w3.org/TR/REC-html40"
+  }
 )]
 struct Workbook {
-  #[yaserde(rename = "Worksheet")]
+  #[yaserde(rename = "Worksheet", prefix = "ss")]
   worksheet: Worksheet,
 }
 
 #[derive(YaDeserialize, Default, Debug, PartialEq)]
 #[yaserde(
   prefix = "ss",
-  namespace = "x: urn:schemas-microsoft-com:office:excel",
-  namespace = "ss: urn:schemas-microsoft-com:office:spreadsheet",
-  namespace = "o: urn:schemas-microsoft-com:office:office",
-  namespace = "html: http://www.w3.org/TR/REC-html40"
+  namespaces = {
+    "x" = "urn:schemas-microsoft-com:office:excel",
+    "ss" = "urn:schemas-microsoft-com:office:spreadsheet",
+    "o" = "urn:schemas-microsoft-com:office:office",
+    "html" = "http://www.w3.org/TR/REC-html40"
+  }
 )]
 struct Worksheet {
-  #[yaserde(rename = "Table")]
+  #[yaserde(rename = "Table", prefix = "ss")]
   table: Table,
   #[yaserde(attribute = true, rename = "Name", prefix = "ss")]
   ws_name: String,
@@ -32,10 +36,12 @@ struct Worksheet {
 #[derive(YaDeserialize, Default, Debug, PartialEq)]
 #[yaserde(
   prefix = "ss",
-  namespace = "x: urn:schemas-microsoft-com:office:excel",
-  namespace = "ss: urn:schemas-microsoft-com:office:spreadsheet",
-  namespace = "o: urn:schemas-microsoft-com:office:office",
-  namespace = "html: http://www.w3.org/TR/REC-html40"
+  namespaces = {
+    "x" = "urn:schemas-microsoft-com:office:excel",
+    "ss" = "urn:schemas-microsoft-com:office:spreadsheet",
+    "o" = "urn:schemas-microsoft-com:office:office",
+    "html" = "http://www.w3.org/TR/REC-html40"
+  }
 )]
 struct Table {
   #[yaserde(attribute = true, rename = "ExpandedColumnCount", prefix = "ss")]
@@ -53,17 +59,19 @@ struct Table {
   #[yaserde(attribute = true, rename = "DefaultRowHeight", prefix = "ss")]
   default_column_height: f32,
 
-  #[yaserde(rename = "Row")]
+  #[yaserde(rename = "Row", prefix = "ss")]
   rows: Vec<Row>,
 }
 
-#[derive(YaDeserialize, Default, Debug, PartialEq)]
+#[derive(YaDeserialize, Debug, PartialEq)]
 #[yaserde(
   prefix = "ss",
-  namespace = "x: urn:schemas-microsoft-com:office:excel",
-  namespace = "ss: urn:schemas-microsoft-com:office:spreadsheet",
-  namespace = "o: urn:schemas-microsoft-com:office:office",
-  namespace = "html: http://www.w3.org/TR/REC-html40"
+  namespaces = {
+    "x" = "urn:schemas-microsoft-com:office:excel",
+    "ss" = "urn:schemas-microsoft-com:office:spreadsheet",
+    "o" = "urn:schemas-microsoft-com:office:office",
+    "html" = "http://www.w3.org/TR/REC-html40"
+  }
 )]
 struct Row {
   #[yaserde(attribute = true, rename = "AutoFitHeight", prefix = "ss")]
