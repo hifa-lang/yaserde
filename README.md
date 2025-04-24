@@ -1,9 +1,7 @@
-# Hifa Yaserde &emsp; [![Latest Version]][crates.io] [![Coverage Status]][coveralls]
+# Hifa Yaserde &emsp; [![Latest Version]][crates.io]
 
 [Latest Version]: https://img.shields.io/crates/v/hifa_yaserde.svg
 [crates.io]: https://crates.io/crates/hifa_yaserde
-[Coverage Status]: https://coveralls.io/repos/github/hifa-lang/yaserde/badge.svg?branch=master
-[coveralls]: https://coveralls.io/github/hifa-lang/yaserde?branch=master
 
 **Yet Another Serializer/Deserializer specialized for XML**
 
