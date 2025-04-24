@@ -1,7 +1,5 @@
-# hifa yaserde &emsp; [![Build Status]][travis] [![Latest Version]][crates.io] [![Coverage Status]][coveralls]
+# Hifa Yaserde &emsp; [![Latest Version]][crates.io] [![Coverage Status]][coveralls]
 
-[Build Status]: https://travis-ci.com/hifa-lang/yaserde.svg?branch=master
-[travis]: https://travis-ci.com/hifa-lang/yaserde
 [Latest Version]: https://img.shields.io/crates/v/hifa_yaserde.svg
 [crates.io]: https://crates.io/crates/hifa_yaserde
 [Coverage Status]: https://coveralls.io/repos/github/hifa-lang/yaserde/badge.svg?branch=master
