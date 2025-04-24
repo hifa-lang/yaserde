@@ -1,6 +1,6 @@
 [package]
 name = "hifa_yaserde_derive"
-version = "0.9.3"
+version = "0.10.0"
 authors = ["Marc-Antoine Arnaud <arnaud.marcantoine@gmail.com>", "hifa-lang"]
 description = "Serialization and deserialization macros"
 keywords = ["Serialization", "Deserialization"]

@@ -1,6 +1,6 @@
 [package]
 name = "hifa_yaserde"
-version = "0.9.3"
+version = "0.10.0"
 authors = ["Marc-Antoine Arnaud <arnaud.marcantoine@gmail.com>", "hifa-lang"]
 description = "Serialization and deserialization library"
 keywords = ["Serialization", "Deserialization", "XML"]
@@ -15,13 +15,13 @@ edition = "2018"
 derive = ["hifa_yaserde_derive"]
 
 [dependencies]
-hifa_yaserde_derive = { version = "0.9.3", path = "../yaserde_derive", optional = true }
+hifa_yaserde_derive = { version = "0.10.0", path = "../yaserde_derive", optional = true }
 xml-rs = "0.8.3"
 log = "0.4"
 
 [dev-dependencies]
 env_logger = "0.11.0"
-hifa_yaserde_derive = { version = "0.9.3", path = "../yaserde_derive" }
+hifa_yaserde_derive = { version = "0.10.0", path = "../yaserde_derive" }
 
 [badges]
 travis-ci = { repository = "hifa-lang/yaserde" }
